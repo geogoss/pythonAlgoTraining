@@ -5,6 +5,8 @@ import sys
 import os
 import json
 
+CUR_DIR= os.path.dirname(__file__)
+LISTE_PATH = os.path.join(CUR_DIR, "liste.json")
 
 PANIER = []
 MENU_CHOICE = ["1", "2", "3", "4", "5"]
@@ -15,6 +17,14 @@ MENU =''' Voici 5 options :
 4 : vider le panier
 5 : exit
 Faites votre choix parmi ces 5 propositions'''
+
+if os.path.exists(LISTE_PATH):
+    with open(LISTE_PATH, "r") as f:
+        PANIER = json.load(f)
+else:
+    PANIER = []
+
+
 
 while True:
     user_choice = input(MENU)
@@ -48,6 +58,8 @@ while True:
         while True:
             confirmation = input("Etes vous sur de vouloir quitter ? o/n")
             if confirmation == "o":
+                with open(LISTE_PATH, "w") as f:
+                    json.dump(PANIER, f, indent=4)
                 print("Bonne journée, à bientôt")
                 sys.exit()
             elif confirmation == "n":
@@ -56,6 +68,7 @@ while True:
                 print("Votre réponse n'est pas valide !")
                 continue
     print("-"*50)
+
 
 
 
